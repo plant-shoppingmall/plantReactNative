@@ -4,6 +4,7 @@ import ProductScreen from "../screens/ProductScreen";
 import Category from "../screens/Category";
 import Cart from "../screens/Cart";
 import List from "../screens/List";
+import purchasePay from "../screens/Purchase";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -30,6 +31,11 @@ const StaclNavigation = () => {
       <Stack.Screen
         name="장바구니"
         component={Cart}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="purchase"
+        component={purchasePay}
         //options={{ headerShown: false }}
       ></Stack.Screen>
     </Stack.Navigator>
