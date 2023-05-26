@@ -1,9 +1,31 @@
 import React, { useState } from "react";
 import Modal from "react-native-modal";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import Button, { ButtonTypes } from "../component/PurchaseButton";
+import { Picker } from "@react-native-picker/picker";
 
 const Purchase = navigation => {
+  const pickupLocations = [
+    {
+      id: 1,
+      location: "문 앞에 놓아주세요",
+    },
+    {
+      id: 2,
+      location: "벨을 눌러주세요",
+    },
+    {
+      id: 3,
+      location: "경비실에 맡겨주세요",
+    },
+  ];
   const price = "14,000원";
   const products = [
     {
@@ -38,27 +60,81 @@ const Purchase = navigation => {
     phoneNumber: "010-1234-5678",
     address: "서울시 성북구 화랑로 48길 16",
   };
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalOutput, setModalOutput] = useState(userInfo.address);
+  const [requireModalVisible, setRequireModalVisible] = useState(false);
+  const [buyModalVisible, setBuyModalVisible] = useState(false);
+  const [modalOutputAddress, setModalOutputAddress] = useState(
+    userInfo.address
+  );
+  const [modalOutputLocation, setModalOutputLocation] = useState(
+    pickupLocations[0].location
+  );
+  const [modalOutputRequire, setModalOutputRequire] = useState("없음");
+  const [deliverRequire, setDeliverRequire] = useState("없음");
+  const [pickerValue, setPickerValue] = useState("1");
+
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
       <Modal
-        isVisible={modalVisible}
+        isVisible={requireModalVisible}
         useNativeDriver={true}
         hideModalContentWhileAnimating={true}
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
       >
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>배송 요청사항</Text>
+          <View style={styles.modalMenu}>
+            <Text style={styles.menuTitle}>수령 위치</Text>
+            <Picker
+              style={styles.modalLockationPiker}
+              selectedValue={pickerValue}
+              onValueChange={item => {
+                setPickerValue(item);
+                setModalOutputLocation(pickupLocations[item - 1].location);
+              }}
+            >
+              {pickupLocations.map(location => (
+                <Picker.Item label={location.location} value={location.id} />
+              ))}
+            </Picker>
+          </View>
+          <View style={styles.modalMenu}>
+            <Text style={styles.menuTitle}>요청사항</Text>
+            <TextInput
+              style={styles.modalRequireInput}
+              onChangeText={text => {
+                setDeliverRequire(text);
+              }}
+              placeholder={modalOutputRequire}
+            />
+          </View>
+          <View style={styles.modalButtonContext}>
+            <Button
+              title="확인"
+              onPress={() => {
+                setModalOutputRequire(deliverRequire);
+                setRequireModalVisible(false);
+              }}
+              buttonStyle={styles.modalButtonFrame}
+              textStyle={styles.ChangeButtonTitle}
+            />
+          </View>
+        </View>
+      </Modal>
+      {/* 구매 완료 메시지 Modal */}
+      <Modal
+        isVisible={buyModalVisible}
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <View style={styles.buymodalContainer}>
           <Button
-            title="변경"
+            title="확인"
             onPress={() => {
-              console.log("Modal quit!");
-              setModalOutput("선택 3");
-              setModalVisible(false);
+              setBuyModalVisible(false);
             }}
-            buttonStyle={styles.ChangeButtonFrame}
+            buttonStyle={styles.modalButtonFrame}
             textStyle={styles.ChangeButtonTitle}
           />
         </View>
@@ -80,7 +156,7 @@ const Purchase = navigation => {
                   textStyle={styles.ChangeButtonTitle}
                 />
               </View>
-              <Text style={styles.menuTitle}>{userInfo.address}</Text>
+              <Text style={styles.menuTitle}>{modalOutputAddress}</Text>
             </View>
           </View>
           {/* 배송 요청사항 */}
@@ -91,8 +167,7 @@ const Purchase = navigation => {
                 <Button
                   title="변경"
                   onPress={() => {
-                    setModalVisible(true);
-                    console.log("change!");
+                    setRequireModalVisible(true);
                   }}
                   buttonStyle={[styles.ChangeButtonFrame, { marginLeft: 105 }]}
                   textStyle={styles.ChangeButtonTitle}
@@ -100,11 +175,11 @@ const Purchase = navigation => {
               </View>
               <View style={styles.menu}>
                 <Text style={styles.menuTitle}>수령위치</Text>
-                <Text style={styles.userChoice}>문 앞에 놓아주세요</Text>
+                <Text style={styles.userChoice}>{modalOutputLocation}</Text>
               </View>
               <View style={styles.menu}>
                 <Text style={styles.menuTitle}>요청사항</Text>
-                <Text style={styles.userChoice}>없음</Text>
+                <Text style={styles.userChoice}>{modalOutputRequire}</Text>
               </View>
             </View>
           </View>
@@ -162,6 +237,7 @@ const Purchase = navigation => {
           title="결제하기"
           onPress={() => {
             console.log("buy!");
+            setBuyModalVisible(true);
           }}
           buttonStyle={styles.buyButton}
           textStyle={styles.deviceText}
@@ -341,15 +417,57 @@ const styles = StyleSheet.create({
   modalContainer: {
     flexDirection: "column",
     alignItems: "center",
-    /* 모달창 크기 조절 */
     width: "90%",
     height: 300,
-    backgroundColor: "#D6D6D6",
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 700,
+  },
+  modalMenu: {
+    width: "90%",
+    height: "20%",
+    marginVertical: 20,
+    paddingLeft: 10,
+  },
+  modalLockationPiker: {
+    width: "100%",
+    height: "20%",
+  },
+  modalRequireInput: {
+    width: "100%",
+    height: "100%",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  modalButtonContext: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 25,
+  },
+  modalButtonFrame: {
+    marginTop: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50,
+    height: 30,
+    backgroundColor: "#d9d9d9",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+
+  buymodalContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    width: "90%",
+    height: 150,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
   },
 });
 
