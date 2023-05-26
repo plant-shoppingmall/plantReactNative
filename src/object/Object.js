@@ -546,3 +546,10 @@ export const priceToInt = stringPrice => {
   return price;
 };
 // 문자열 가격 -> 정수로
+export let popular = [];
+for (let i = 0; i < 3; i++) {
+  popular.push(airPurifyPlantes[i]);
+  popular.push(flower[i]);
+  popular.push(cactus[i]);
+  popular.push(pot[i]);
+}
