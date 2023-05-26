@@ -8,9 +8,9 @@ import {
   TouchableOpacity
 } from "react-native"
 import { COLORS, SIZES, FONTS, icons, images } from "../constants"
+import { getFonts } from "../constants/theme";
 
 const CateScreen = () => {
-
   const featuresData = [
     {
       id: 1,

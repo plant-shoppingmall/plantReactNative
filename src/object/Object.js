@@ -553,3 +553,4 @@ for (let i = 0; i < 3; i++) {
   popular.push(cactus[i]);
   popular.push(pot[i]);
 }
+
