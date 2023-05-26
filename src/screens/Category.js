@@ -19,6 +19,10 @@ const Category = ({ navigation, route }) => {
           }
         ></Button>
       ))}
+      <Button
+        title="purchase"
+        onPress={() => navigation.navigate("purchase")}
+      ></Button>
     </View>
   );
 };

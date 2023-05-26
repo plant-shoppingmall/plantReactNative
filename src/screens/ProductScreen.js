@@ -7,19 +7,18 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Modal,
+  TouchableWithoutFeedback,
+  Alert,
+  TouchableOpacity,
+  Button,
 } from "react-native";
-import {
-  findObject,
-  findCategory,
-  choiceRandom,
-  choiceNum,
-  priceToInt,
-} from "../object/Object";
-import MyButton from "../component/MyButton";
+import { useState } from "react";
+import FooterButton from "../component/FooterButton";
+import BasicButton from "../component/BasicButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-console.log(SCREEN_WIDTH);
 
 const ProductScreen = ({ route, navigation }) => {
   let productObject = route.params.object;
@@ -32,8 +31,8 @@ const ProductScreen = ({ route, navigation }) => {
       productImage.push(
         <View
           style={{
-            width: SCREEN_WIDTH,
-            height: SCREEN_WIDTH,
+            width: SCREEN_WIDTH / 1,
+            height: SCREEN_WIDTH / 1.05,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -42,8 +41,10 @@ const ProductScreen = ({ route, navigation }) => {
             //key={i}
             source={numImage[i]}
             style={{
-              width: SCREEN_WIDTH / 1.4,
-              height: SCREEN_WIDTH / 1.4,
+              width: SCREEN_WIDTH / 1.04,
+              height: SCREEN_WIDTH / 1.05,
+              borderBottomLeftRadius: 95,
+              borderBottomRightRadius: 95,
             }}
           />
         </View>
@@ -92,8 +93,10 @@ const ProductScreen = ({ route, navigation }) => {
             justifyContent: "center",
             alignItems: "center",
             borderColor: "lightgray",
-            borderWidth: 1,
-            marginRight: 5,
+            borderWidth: 2,
+            marginRight: 3,
+            marginLeft: 3,
+            borderRadius: 30,
           }}
         >
           <Pressable
@@ -111,21 +114,20 @@ const ProductScreen = ({ route, navigation }) => {
             <Image
               source={item[i].image[0]}
               style={{
-                width: SCREEN_WIDTH / 3.2,
-                height: SCREEN_WIDTH / 3.2,
+                width: SCREEN_WIDTH / 3.3,
+                height: SCREEN_WIDTH / 3.3,
+                borderTopLeftRadius: 40,
+                borderTopRightRadius: 40,
               }}
             ></Image>
             <Text style={{ marginTop: 10, fontSize: 20 }}>{item[i].name}</Text>
             <Text style={{ marginTop: 7, marginBottom: 7 }}>
               {item[i].price}원
             </Text>
-            <MyButton
+            <BasicButton
               title="상품 보기"
               style={{
-                backgroundColor: "rgba(0, 128, 0, 0.05)",
-                marginBottom: 5,
-                borderColor: "green",
-                borderWidth: 1,
+                marginBottom: 15,
               }}
               onPress={() =>
                 navigation.navigate("상품 페이지", {
@@ -133,7 +135,7 @@ const ProductScreen = ({ route, navigation }) => {
                   category: category,
                 })
               }
-            ></MyButton>
+            ></BasicButton>
           </Pressable>
         </View>
       );
@@ -142,37 +144,59 @@ const ProductScreen = ({ route, navigation }) => {
   };
   let render = renderRecommand();
 
-  const cartPage = () => {
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>11</Text>
-    </View>;
-  };
-  let page = cartPage();
+  const [cartModalVisible, setCartModalVisible] = useState(false);
+  const [buyModalVisible, setBuyModalVisible] = useState(false);
+  const [productNum, setProductNum] = useState(1);
+  if (productNum < 1) {
+    setProductNum(1);
+  } else if (productNum > 10) {
+    setProductNum(10);
+  }
+
+  let cartArray = [];
 
   return (
     <View style={styles.container}>
       <StatusBar style="dark"></StatusBar>
-      <View
-        style={{
-          flex: 3.2,
-        }}
-      >
-        <ScrollView
-          horizontal
-          contentContainerStyle={[styles.scrollView]}
-          pagingEnabled
-          //showsHorizontalScrollIndicator={false}
-          // indicatorStyle='white' ios에서만 작동
-        >
-          {image}
-        </ScrollView>
-      </View>
-      <View style={{ flex: 3 }}>
+
+      <View style={{ flex: 10 }}>
         <ScrollView
           contentContainerStyle={[styles.scrollViewContext]}
           showsVerticalScrollIndicator={false}
         >
-          <View style={{ paddingBottom: 0, paddingLeft: 20, paddingRight: 20 }}>
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "lightgray",
+              borderBottomLeftRadius: 100,
+              borderBottomRightRadius: 100,
+              overflow: "hidden",
+              paddingBottom: SCREEN_WIDTH / 47,
+            }}
+          >
+            <ScrollView
+              horizontal
+              contentContainerStyle={[
+                styles.scrollView,
+                {
+                  backgroundColor: "lightgray",
+                },
+              ]}
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              // indicatorStyle='white' ios에서만 작동
+            >
+              {image}
+            </ScrollView>
+          </View>
+          <View
+            style={{
+              paddingBottom: 0,
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+          >
             <View style={{ backgroundColor: "lightgray", paddingBottom: 3 }}>
               <View style={[styles.nameAndPrice, { backgroundColor: "white" }]}>
                 <View
@@ -262,35 +286,230 @@ const ProductScreen = ({ route, navigation }) => {
             >
               동일 카테고리 추천 상품
             </Text>
-            <View style={{ flexDirection: "row" }}>
-              <ScrollView
-                horizontal
-                contentContainerStyle={[styles.scrollView]}
-                //pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                // indicatorStyle='white' ios에서만 작동
-              >
-                {render}
-              </ScrollView>
-            </View>
+            <ScrollView
+              horizontal
+              contentContainerStyle={[styles.scrollView]}
+              //pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              // indicatorStyle='white' ios에서만 작동
+            >
+              {render}
+            </ScrollView>
           </View>
+          <Button
+            title="장바구니"
+            onPress={() => navigation.navigate("장바구니")}
+          ></Button>
         </ScrollView>
       </View>
-      <View style={[styles.footer, { flex: 0.6 }]}>
-        <MyButton
+      <View style={[styles.footer, { flex: 1 }]}>
+        <FooterButton
           title="구매하기"
-          onPress={() => buyPage(productObject)}
-          style={styles.button}
-        ></MyButton>
-        <MyButton
+          onPress={() => setBuyModalVisible(true)}
+          style={[styles.button, { borderTopRightRadius: 100 }]}
+        ></FooterButton>
+        <FooterButton
           title="장바구니"
           onPress={() => {
-            {
-              page;
-            }
+            setCartModalVisible(true);
           }}
-          style={styles.button}
-        ></MyButton>
+          style={[
+            styles.button,
+            { borderTopLeftRadius: 100, backgroundColor: "tomato" },
+          ]}
+        ></FooterButton>
+      </View>
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={cartModalVisible}
+          style={{}}
+        >
+          <TouchableWithoutFeedback onPress={() => setCartModalVisible(false)}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(0,0,0,0.5)",
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 20,
+                  borderRadius: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setCartModalVisible(false);
+                  }}
+                >
+                  <View style={{}}>
+                    <Text style={[styles.productName, { fontSize: 20 }]}>
+                      이름: {productObject.name}
+                    </Text>
+                    <Text style={[styles.productName, { fontSize: 20 }]}>
+                      수량: {productNum}개
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <BasicButton
+                      title="+"
+                      onPress={() => setProductNum(productNum + 1)}
+                      style={styles.modalButton}
+                    ></BasicButton>
+                    <BasicButton
+                      title="-"
+                      onPress={() => setProductNum(productNum - 1)}
+                      style={[styles.modalButton]}
+                    ></BasicButton>
+                  </View>
+                  <BasicButton
+                    style={styles.modalButton}
+                    title="장바구니 담기"
+                    onPress={async () => {
+                      let data = {
+                        name: productObject.name,
+                        price: productObject.price,
+                        productNum: productNum,
+                      };
+
+                      const currentItems = await AsyncStorage.getItem("cart");
+                      const updatedItems = currentItems
+                        ? JSON.parse(currentItems)
+                        : [];
+                      if (updatedItems.length == 0) {
+                        updatedItems.push(data);
+                        await AsyncStorage.setItem(
+                          "cart",
+                          JSON.stringify(updatedItems)
+                        );
+                        Alert.alert("", "상품이 장바구니에 담겼습니다.");
+                      } else {
+                        for (let i = 0; i < updatedItems.length; i++) {
+                          if (updatedItems[i].name == data.name) {
+                            Alert.alert(
+                              "",
+                              "상품이 이미 장바구니에 존재합니다."
+                            );
+                            setCartModalVisible(!modalVisible);
+                            break;
+                          }
+                          if (i + 1 == updatedItems.length) {
+                            updatedItems.push(data);
+                            await AsyncStorage.setItem(
+                              "cart",
+                              JSON.stringify(updatedItems)
+                            );
+
+                            Alert.alert("", "상품이 장바구니에 담겼습니다.");
+                            break;
+                          }
+                        }
+                      }
+
+                      setCartModalVisible(false);
+                      setProductNum(0);
+                    }}
+                  ></BasicButton>
+
+                  <BasicButton
+                    title="취소"
+                    onPress={() => setCartModalVisible(false)}
+                    style={styles.modalButton}
+                  ></BasicButton>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={buyModalVisible}
+          style={{}}
+        >
+          <TouchableWithoutFeedback onPress={() => setBuyModalVisible(false)}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(0,0,0,0.5)",
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 20,
+                  borderRadius: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setBuyModalVisible(false);
+                  }}
+                >
+                  <View style={{}}>
+                    <Text style={[styles.productName, { fontSize: 20 }]}>
+                      이름: {productObject.name}
+                    </Text>
+                    <Text style={[styles.productName, { fontSize: 20 }]}>
+                      수량: {productNum}개
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <BasicButton
+                      title="+"
+                      onPress={() => setProductNum(productNum + 1)}
+                      style={styles.modalButton}
+                    ></BasicButton>
+                    <BasicButton
+                      title="-"
+                      onPress={() => setProductNum(productNum - 1)}
+                      style={[styles.modalButton]}
+                    ></BasicButton>
+                  </View>
+
+                  <BasicButton
+                    style={styles.modalButton}
+                    title="구매하기"
+                    onPress={() =>
+                      navigation.navigate("구매페이지", {
+                        object: item,
+                        category: items,
+                      })
+                    }
+                  ></BasicButton>
+
+                  <BasicButton
+                    title="취소"
+                    onPress={() => setBuyModalVisible(false)}
+                    style={styles.modalButton}
+                  ></BasicButton>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
       </View>
     </View>
   );
@@ -305,29 +524,28 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 40,
     paddingBottom: 5,
+    textShadowColor: "rgba(0, 0, 0, 0.1)", // 그림자의 색상과 투명도
+    textShadowOffset: { width: 2, height: 2 }, // 그림자의 위치 조정
+    textShadowRadius: 30, // 그림자의 반경 조정
   },
   product: {
     alignItems: "center",
     justifyContent: "center",
   },
 
-  scrollView: {
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollViewContext: {},
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    borderColor: "lightgray",
-    borderTopWidth: 1,
   },
   button: {
-    width: SCREEN_WIDTH / 2.5,
-    borderColor: "green",
-    borderWidth: 1,
-    margin: 6,
+    width: SCREEN_WIDTH / 2,
+    fontSize: 25,
+    color: "white",
+    textAlign: "center",
+  },
+  modalButton: {
+    marginTop: 10,
+    paddingRight: "auto",
   },
 });
 export default ProductScreen;
