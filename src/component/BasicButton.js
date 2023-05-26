@@ -1,9 +1,9 @@
 import { Text, Pressable, StyleSheet } from "react-native";
 
-const MyButton = props => {
+const BasicButton = props => {
   return (
     <Pressable onPress={props.onPress} style={[styles.button, props.style]}>
-      <Text style={styles.buttonText}>{props.title}</Text>
+      <Text style={[styles.buttonText]}>{props.title}</Text>
     </Pressable>
   );
 };
@@ -12,15 +12,15 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0, 128, 0, 0.05)",
-    padding: 8,
-    paddingRight: 15,
-    paddingLeft: 15,
-    borderRadius: 5,
+    backgroundColor: "rgba(50, 128, 50, 0.8)",
+    borderRadius: 10,
+    padding: 4,
   },
   buttonText: {
-    color: "black",
-    fontSize: 16,
+    color: "white",
+    marginLeft: 10,
+    marginRight: 10,
+    fontSize: 15,
   },
 });
-export default MyButton;
+export default BasicButton;
