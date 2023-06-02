@@ -3,7 +3,7 @@ import { Button, View, StyleSheet } from "react-native";
 import { cactus, flower, pot, airPurifyPlantes } from "../object/Object";
 //price, image, category, description, size
 const Category = ({ navigation, route }) => {
-  const items = flower;
+  const items = airPurifyPlantes;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -22,6 +22,10 @@ const Category = ({ navigation, route }) => {
       <Button
         title="purchase"
         onPress={() => navigation.navigate("purchase")}
+      ></Button>
+      <Button
+        title="장바구니"
+        onPress={() => navigation.navigate("장바구니")}
       ></Button>
     </View>
   );
