@@ -13,6 +13,7 @@ import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
 // import { Pressable } from "react-native-web";
 
+
 const Purchase = ({ route, navigation }) => {
   const pickupLocations = [
     {
@@ -52,6 +53,7 @@ const Purchase = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
+      <Text>{route.params.product.name}</Text>
       <Modal
         isVisible={requireModalVisible}
         useNativeDriver={true}

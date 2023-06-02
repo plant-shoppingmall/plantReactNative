@@ -48,7 +48,9 @@ const Item = ({ name, initialNum, price, index, onDelete }) => {
       <View>
         <Text style={{ fontSize: 20 }}>{"이름: " + name}</Text>
         <Text style={{ fontSize: 20 }}>{"수량: " + num}</Text>
-        <Text style={{ fontSize: 20 }}>{"기격: " + renderPrice + "원"}</Text>
+        <Text style={{ fontSize: 20 }}>
+          {"기격: " + renderPrice.toLocaleString() + "원"}
+        </Text>
       </View>
       <View
         style={{
@@ -88,7 +90,6 @@ const Cart = () => {
         const data = await AsyncStorage.getItem("cart");
         const parsedData = JSON.parse(data);
         setItems(parsedData);
-        console.log(parsedData);
       } catch (e) {
         console.log(e);
       }
@@ -109,24 +110,54 @@ const Cart = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={[styles.scrollViewContext]}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={styles.container}>
-        {items.map((item, index) => (
-          <Item
-            key={index}
-            name={item.name}
-            initialNum={item.productNum}
-            price={item.price}
-            index={index}
-            onDelete={handleDelete}
-          />
-        ))}
-        <Text></Text>
+    <View style={styles.container}>
+      <View style={{ flex: 10 }}>
+        <ScrollView
+          contentContainerStyle={[styles.scrollViewContext]}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.container}>
+            {items.map(item => (
+              <Item
+                name={item.name}
+                initialNum={item.productNum}
+                price={item.price}
+                onDelete={handleDelete}
+              />
+            ))}
+            {/* {(() => {
+          if (items.length > 0) {
+            return items.map((item, index) => (
+              <Item
+                key={index}
+                name={item.name}
+                initialNum={item.productNum}
+                price={item.price}
+                index={index}
+                onDelete={handleDelete}
+              />
+            ));
+          } else {
+            <Text>상품이 없습니다.</Text>;
+          }
+        })()} */}
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+      <View style={[styles.puchaseButton, { flex: 1 }]}>
+        <Button
+          price="14,000원"
+          title="결제하기"
+          onPress={() => {
+            navigation.navigate("purchase", {
+              product: items,
+              productNum: productNum,
+            });
+          }}
+          style={styles.buyButton}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -137,6 +168,36 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: { padding: "auto" },
+  puchaseButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 70,
+    backgroundColor: "(0,0,0,0.5)",
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+  },
+  buyButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#fe7d67",
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+  },
+  priceText: {
+    marginRight: 10,
+    color: "#ffffff",
+    //fontFamily: "Inter, sans-serif",
+    fontSize: 20,
+    fontWeight: 700,
+  },
+  deviceText: {
+    color: "#ffffff",
+    //fontFamily: "Inter, sans-serif",
+    fontSize: 20,
+  },
 });
 
 export default Cart;

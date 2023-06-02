@@ -296,10 +296,6 @@ const ProductScreen = ({ route, navigation }) => {
               {render}
             </ScrollView>
           </View>
-          <Button
-            title="장바구니"
-            onPress={() => navigation.navigate("장바구니")}
-          ></Button>
         </ScrollView>
       </View>
       <View style={[styles.footer, { flex: 1 }]}>
@@ -492,12 +488,13 @@ const ProductScreen = ({ route, navigation }) => {
                   <BasicButton
                     style={styles.modalButton}
                     title="구매하기"
-                    onPress={() =>
-                      navigation.navigate("구매페이지", {
-                        object: item,
-                        category: items,
-                      })
-                    }
+                    onPress={() => {
+                      navigation.navigate("purchase", {
+                        product: productObject,
+                        productNum: productNum,
+                      });
+                      setBuyModalVisible(false);
+                    }}
                   ></BasicButton>
 
                   <BasicButton
