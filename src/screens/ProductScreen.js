@@ -490,8 +490,7 @@ const ProductScreen = ({ route, navigation }) => {
                     title="구매하기"
                     onPress={() => {
                       navigation.navigate("purchase", {
-                        product: productObject,
-                        productNum: productNum,
+                        object: productObject,
                       });
                       setBuyModalVisible(false);
                     }}

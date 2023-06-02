@@ -13,7 +13,6 @@ import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
 // import { Pressable } from "react-native-web";
 
-
 const Purchase = ({ route, navigation }) => {
   const pickupLocations = [
     {
@@ -30,7 +29,7 @@ const Purchase = ({ route, navigation }) => {
     },
   ];
   const totalPrice = "14,000";
-  const products = [route.params.object];
+  const products = route.params.object;
   const userInfo = {
     id: 1,
     name: "홍길동",
