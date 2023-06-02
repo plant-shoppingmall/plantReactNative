@@ -117,20 +117,6 @@ const ListScreen = ({navigation,route}) => {
             <Text style={{fontSize: 15}}>
               ${plant.price}
             </Text>
-            <View
-              style={{
-                height: 30,
-                width: 35,
-                backgroundColor: COLORS.green,
-                borderRadius: 7,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{fontSize: 25, color: COLORS.white, fontWeight: 'bold', paddingBottom: 35}}>
-                +
-              </Text>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -141,7 +127,7 @@ const ListScreen = ({navigation,route}) => {
       style={{ flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white }}>
       <View style={style.header}>
         <View>
-          <Text style={{ fontSize: 25, fontWeight: "bold" }}>Welcome to</Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>환영합니다</Text>
           <Text style={{ fontSize: 38, color: COLORS.green, fontWeight: "bold" }}>
             Plant Shop
           </Text>
