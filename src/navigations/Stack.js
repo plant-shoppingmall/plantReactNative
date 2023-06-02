@@ -8,6 +8,8 @@ import ListScreen from "../screens/ListScreen";
 import cateScreen from "../screens/CateScreen";
 import { getFonts } from "../constants/theme";
 import purchasePay from "../screens/Purchase";
+import Login from "../screens/Login";
+import SignUp from "../screens/SignUp";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -49,6 +51,18 @@ const StaclNavigation = () => {
       <Stack.Screen
         name="purchase"
         component={purchasePay}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+
         //options={{ headerShown: false }}
       ></Stack.Screen>
     </Stack.Navigator>
