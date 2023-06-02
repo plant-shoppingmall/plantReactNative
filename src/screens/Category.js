@@ -23,6 +23,14 @@ const Category = ({ navigation, route }) => {
         title="purchase"
         onPress={() => navigation.navigate("purchase")}
       ></Button>
+      <Button
+        title="categoryScreen"
+        onPress={() => navigation.navigate("cateScreen")}
+      ></Button>
+      <Button
+        title="ListScreen"
+        onPress={() => navigation.navigate("listScreen")}
+      ></Button>
     </View>
   );
 };

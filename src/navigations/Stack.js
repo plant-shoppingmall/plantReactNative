@@ -37,20 +37,18 @@ const StaclNavigation = () => {
         //options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
-        name="list"
+        name="listScreen"
         component={ListScreen}
         //options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
-        name="Cate"
+        name="cateScreen"
         component={cateScreen}
-
         //options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
         name="purchase"
         component={purchasePay}
-
         //options={{ headerShown: false }}
       ></Stack.Screen>
     </Stack.Navigator>
