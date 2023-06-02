@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -10,7 +10,7 @@ import {
 import { COLORS, SIZES, FONTS, icons, images } from "../constants"
 import { getFonts } from "../constants/theme";
 
-const CateScreen = () => {
+const CateScreen = ({ navigation }) => {
   const featuresData = [
     {
       id: 1,
@@ -140,14 +140,14 @@ const CateScreen = () => {
 
     const Header = () => (
       <View style={{ marginBottom: SIZES.padding * 2 }}>
-        <Text style={{ ...FONTS.h3 }}>Features</Text>
+        <Text style={{ ...FONTS.h3 }}>카테고리</Text>
       </View>
     )
 
     const renderItem = ({ item }) => (
       <TouchableOpacity
         style={{ marginBottom: SIZES.padding * 2, width: 60, alignItems: 'center' }}
-        onPress={() => console.log(item.description)}
+        onPress={() => navigation.navigate("listScreen",{itemId : item.id})}
       >
         <View
           style={{
@@ -206,7 +206,7 @@ const CateScreen = () => {
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text style={{ ...FONTS.h3 }}>Special Promos</Text>
+          <Text style={{ ...FONTS.h3 }}>매거진</Text>
         </View>
         <TouchableOpacity
           onPress={() => console.log("View All")}

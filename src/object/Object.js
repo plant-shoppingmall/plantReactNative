@@ -7,6 +7,7 @@ class product {
     this.category = category;
     this.description = description;
     this.size = size;
+    this.like = false;
   }
 }
 

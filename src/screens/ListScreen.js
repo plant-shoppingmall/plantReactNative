@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -11,15 +11,30 @@ import {
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../color/colors';
-import { airPurifyPlantes, popular, flower, pot, products } from "../object/Object";
+import { airPurifyPlantes, popular, flower, pot, cactus, products } from "../object/Object";
 import cart from "./Cart";
 import IconButton from "../component/IconButton";
 const width = Dimensions.get('window').width / 2 - 30;
 
-const ListScreen = ({navigation}) => {
+const ListScreen = ({navigation,route}) => {
   const [categoryIndex, setCategoryIndex] = React.useState(0);
   const [categoryItem, setCategoryItem] = React.useState(popular);
-  const categories = ['popular', 'Air', 'flower', 'potted'];
+  const categories = ['추천','선인장', '정화식물', '분재', '꽃'];
+  const { itemId } = route.params;
+  useEffect(() => {
+    setCategoryIndex(itemId);
+    if (itemId === 0) {
+      setCategoryItem(popular);
+    } else if (itemId === 1) {
+      setCategoryItem(cactus);
+    }else if (itemId === 2) {
+      setCategoryItem(airPurifyPlantes);
+    }else if (itemId === 3) {
+      setCategoryItem(pot);
+    }else if (itemId === 4) {
+      setCategoryItem(flower);
+    }
+  });
 
   const CategoryList = () => {
     return (
@@ -29,15 +44,16 @@ const ListScreen = ({navigation}) => {
             key={index}
             activeOpacity={0.8}
             onPress={() => {
-              setCategoryIndex(index);
               if (index === 0) {
-                setCategoryItem(popular);
+                navigation.navigate("listScreen",{itemId : index})
               }else if (index === 1) {
-                setCategoryItem(airPurifyPlantes);
+                navigation.navigate("listScreen",{itemId : index})
               }else if (index === 2) {
-                setCategoryItem(flower);
+                navigation.navigate("listScreen",{itemId : index})
               }else if (index === 3) {
-                setCategoryItem(pot);
+                navigation.navigate("listScreen",{itemId : index})
+              }else if (index === 4) {
+                navigation.navigate("listScreen",{itemId : index})
               }
             }}>
             <Text
@@ -89,7 +105,7 @@ const ListScreen = ({navigation}) => {
               style={{flex: 1, resizeMode: 'contain'}}
             />
           </View>
-          <Text style={{fontWeight: 'bold', fontSize: 17, marginTop: 10, color: COLORS.fontGreen, fontFamily: 'PlayfairDisplay-Italic-VariableFont_wght.ttf'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 17, marginTop: 10, color: COLORS.fontGreen}}>
             {plant.name}
           </Text>
           <View

@@ -7,11 +7,14 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  Pressable,
 } from "react-native";
 import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
+// import { Pressable } from "react-native-web";
 
-const Purchase = ({ navigation, route }) => {
+
+const Purchase = ({ route, navigation }) => {
   const pickupLocations = [
     {
       id: 1,
@@ -26,33 +29,8 @@ const Purchase = ({ navigation, route }) => {
       location: "경비실에 맡겨주세요",
     },
   ];
-  const price = "14,000원";
-  const products = [
-    {
-      id: 1,
-      name: "장미꽃",
-      price: "14,000",
-      image: require("../object/꽃/image000.png"),
-    },
-    {
-      id: 2,
-      name: "장미꽃",
-      price: "14,000",
-      image: require("../object/꽃/image000.png"),
-    },
-    {
-      id: 3,
-      name: "장미꽃",
-      price: "14,000",
-      image: require("../object/꽃/image000.png"),
-    },
-    {
-      id: 4,
-      name: "장미꽃",
-      price: "14,000",
-      image: require("../object/꽃/image000.png"),
-    },
-  ];
+  const totalPrice = "14,000";
+  const products = [route.params.object];
   const userInfo = {
     id: 1,
     name: "홍길동",
@@ -130,13 +108,18 @@ const Purchase = ({ navigation, route }) => {
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
       >
         <View style={styles.buymodalContainer}>
+          <View style={styles.buymodalTextConext}>
+            <Text style={styles.modalTitle}>구매가 완료되었습니다.</Text>
+          </View>
           <Button
             title="확인"
             onPress={() => {
               setBuyModalVisible(false);
+              // navigation.navigate("메인 페이지", {
+              // })
             }}
-            buttonStyle={styles.modalButtonFrame}
-            textStyle={styles.ChangeButtonTitle}
+            buttonStyle={styles.buymodalButtonFrame}
+            textStyle={styles.deviceText}
           />
         </View>
       </Modal>
@@ -148,14 +131,14 @@ const Purchase = ({ navigation, route }) => {
             <View style={styles.frame}>
               <View style={styles.frameHead}>
                 <Text style={styles.frameTitle}>배송지</Text>
-                <Button
+                {/* <Button
                   title="변경"
                   onPress={() => {
                     console.log("change!");
                   }}
                   buttonStyle={[styles.ChangeButtonFrame, { marginLeft: 180 }]}
                   textStyle={styles.ChangeButtonTitle}
-                />
+                /> */}
               </View>
               <Text style={styles.menuTitle}>{modalOutputAddress}</Text>
             </View>
@@ -216,16 +199,31 @@ const Purchase = ({ navigation, route }) => {
               <View style={styles.itemList}>
                 <ScrollView horizontal={true} style={styles.itemScrollView}>
                   {products.map(product => (
-                    <View key={product.id} style={styles.item}>
-                      <Image source={product.image} style={styles.itemImage} />
-                      <Text style={styles.itemTitle}>{product.name}</Text>
-                      {/* <Text style={purchasePayStyles.itemInfo}>7,000원 2개</Text> */}
-                    </View>
+                    <Pressable
+                      onPress={() => {
+                        console.log("image!");
+
+                        navigation.navigate("상품 페이지", {
+                          object: product,
+                        });
+                      }}
+                    >
+                      <View key={product.id} style={styles.item}>
+                        <Image
+                          source={product.image}
+                          style={styles.itemImage}
+                        />
+                        <Text style={styles.itemTitle}>{product.name}</Text>
+                        <Text style={styles.itemInfo}>
+                          {product.price}원 X {product.quantity}
+                        </Text>
+                      </View>
+                    </Pressable>
                   ))}
                 </ScrollView>
               </View>
               {/* 상품 총 가격 */}
-              <Text style={styles.priceInProduct}>총 14,000원</Text>
+              <Text style={styles.priceInProduct}>총 {totalPrice}원</Text>
             </View>
           </View>
         </View>
@@ -234,7 +232,7 @@ const Purchase = ({ navigation, route }) => {
       <View style={styles.puchaseButton}>
         <Button
           buttonType={ButtonTypes.BUY}
-          price="14,000원"
+          price={totalPrice + "원"}
           title="결제하기"
           onPress={() => {
             console.log("buy!");
@@ -281,7 +279,7 @@ const styles = StyleSheet.create({
   product: {
     marginBottom: 10,
     width: "98%",
-    height: 320,
+    height: 335,
   },
   frame: {
     width: "100%",
@@ -347,7 +345,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
     width: 150,
-    height: 185,
+    height: 200,
     borderWidth: 0.5,
     borderRadius: 20,
     borderStyle: "solid",
@@ -373,8 +371,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   itemInfo: {
-    color: "black",
-    fontSize: 13,
+    color: "gray",
+    fontSize: 15,
   },
   priceInProduct: {
     textAlign: "right",
@@ -469,6 +467,22 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
+  },
+  buymodalTextConext: {
+    marginTop: 50,
+    marginBottom: 20,
+  },
+  buymodalButtonFrame: {
+    marginTop: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 40,
+    backgroundColor: "#fe7d67",
+    borderColor: "#fe7d67",
+    borderWidth: 1,
+    borderRadius: 10,
+    fontSize: 20,
   },
 });
 
