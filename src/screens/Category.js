@@ -14,7 +14,6 @@ const Category = ({ navigation, route }) => {
           onPress={() =>
             navigation.navigate("상품 페이지", {
               object: item,
-              category: items,
             })
           }
         ></Button>
