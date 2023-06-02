@@ -21,7 +21,17 @@ const Category = ({ navigation, route }) => {
       ))}
       <Button
         title="purchase"
-        onPress={() => navigation.navigate("purchase")}
+        onPress={() => navigation.navigate("purchase", { object: items[0] })}
+      ></Button>
+      <Button title="list" onPress={() => navigation.navigate("list")}></Button>
+      <Button title="Cate" onPress={() => navigation.navigate("Cate")}></Button>
+      <Button
+        title="Login"
+        onPress={() => navigation.navigate("Login")}
+      ></Button>
+      <Button
+        title="SignUp"
+        onPress={() => navigation.navigate("SignUp")}
       ></Button>
     </View>
   );
