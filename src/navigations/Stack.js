@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProductScreen from "../screens/ProductScreen";
 import Category from "../screens/Category";
 import Cart from "../screens/Cart";
-import List from "../screens/List";
 import ListScreen from "../screens/ListScreen";
 import cateScreen from "../screens/CateScreen";
 import { getFonts } from "../constants/theme";
@@ -21,11 +20,6 @@ const StaclNavigation = () => {
       <Stack.Screen
         name="category"
         component={Category}
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="list"
-        component={List}
         options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
