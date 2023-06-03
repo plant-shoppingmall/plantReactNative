@@ -29,7 +29,7 @@ const Purchase = ({ route, navigation }) => {
     },
   ];
   const totalPrice = "14,000";
-  const products = [route.params.object];
+  const products = route.params.object;
   const userInfo = {
     id: 1,
     name: "홍길동",
@@ -52,7 +52,6 @@ const Purchase = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
-      <Text>{product[0].quantity}</Text>
       <Modal
         isVisible={requireModalVisible}
         useNativeDriver={true}
@@ -209,7 +208,7 @@ const Purchase = ({ route, navigation }) => {
                     >
                       <View key={product.id} style={styles.item}>
                         <Image
-                          source={product.image}
+                          source={product.image[0]}
                           style={styles.itemImage}
                         />
                         <Text style={styles.itemTitle}>{product.name}</Text>
