@@ -522,7 +522,7 @@ const ProductScreen = ({ route, navigation }) => {
                       productObject.quantity = productNum;
                       object.push(productObject);
                       navigation.navigate("purchase", {
-                        object: object,
+                        object: productObject,
                       });
                       setBuyModalVisible(false);
                     }}

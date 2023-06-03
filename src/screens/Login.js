@@ -83,7 +83,7 @@ const Login = ({ route, navigation }) => {
           title="Login"
           onPress={() => {
             if (checkLogin(inputEmail, inputPassword) == true) {
-              // navigation.navigate("메인화면", {});
+              navigation.navigate("cateScreen", {});
             } else {
               setMessage("아이디와 비밀번호를 확인해주세요.");
               setModalVisible(true);
