@@ -136,27 +136,6 @@ const ListScreen = ({ navigation, route }) => {
             }}
           >
             <Text style={{ fontSize: 15 }}>${plant.price}</Text>
-            <View
-              style={{
-                height: 30,
-                width: 35,
-                backgroundColor: COLORS.green,
-                borderRadius: 7,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 25,
-                  color: COLORS.white,
-                  fontWeight: "bold",
-                  paddingBottom: 35,
-                }}
-              >
-                +
-              </Text>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -178,6 +157,7 @@ const ListScreen = ({ navigation, route }) => {
         <IconButton
           onPress={() => navigation.navigate("장바구니")}
         ></IconButton>
+
       </View>
       <CategoryList />
       <FlatList
