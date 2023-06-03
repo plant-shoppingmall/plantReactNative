@@ -13,7 +13,6 @@ import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
 // import { Pressable } from "react-native-web";
 
-
 const Purchase = ({ route, navigation }) => {
   const pickupLocations = [
     {
@@ -49,11 +48,11 @@ const Purchase = ({ route, navigation }) => {
   const [modalOutputRequire, setModalOutputRequire] = useState("없음");
   const [deliverRequire, setDeliverRequire] = useState("없음");
   const [pickerValue, setPickerValue] = useState("1");
-
+  let product = route.params.object;
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
-      <Text>{route.params.product.name}</Text>
+      <Text>{product[0].quantity}</Text>
       <Modal
         isVisible={requireModalVisible}
         useNativeDriver={true}
