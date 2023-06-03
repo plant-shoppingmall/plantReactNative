@@ -48,11 +48,9 @@ const Purchase = ({ route, navigation }) => {
   const [modalOutputRequire, setModalOutputRequire] = useState("없음");
   const [deliverRequire, setDeliverRequire] = useState("없음");
   const [pickerValue, setPickerValue] = useState("1");
-  let product = route.params.object;
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
-      <Text>{product[0].quantity}</Text>
       <Modal
         isVisible={requireModalVisible}
         useNativeDriver={true}
@@ -209,7 +207,7 @@ const Purchase = ({ route, navigation }) => {
                     >
                       <View key={product.id} style={styles.item}>
                         <Image
-                          source={product.image}
+                          source={product.image[0]}
                           style={styles.itemImage}
                         />
                         <Text style={styles.itemTitle}>{product.name}</Text>
