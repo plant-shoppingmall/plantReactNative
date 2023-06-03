@@ -13,15 +13,15 @@ class product {
 }
 
 export let airPurifyPlantes = [];
-airPurifyPlantes.name = "공기 정화 식물";
+airPurifyPlantes.name = "공기정화식물";
 export let cactus = [];
-cactus.name = "cactus";
+cactus.name = "다육식물";
 export let flower = [];
-flower.name = "flower";
+flower.name = "꽃";
 // export let flowerBox = [];
 // flowerBox.name = "flowerBox";
 export let pot = [];
-pot.name = "flower";
+pot.name = "분재";
 
 export let products = [airPurifyPlantes, flower, cactus, pot];
 
