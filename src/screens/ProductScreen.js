@@ -17,13 +17,11 @@ import { useState } from "react";
 import FooterButton from "../component/FooterButton";
 import BasicButton from "../component/BasicButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { products } from "../object/Object";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const ProductScreen = ({ route, navigation }) => {
   let productObject = route.params.object;
-  let object = [];
 
   //1. 상품 객체의 n개의 이미지를 출력하는 함수와 변수
   let numImage = productObject.image;
@@ -58,17 +56,7 @@ const ProductScreen = ({ route, navigation }) => {
   // 1번 함수 끝
 
   // 2번 함수: 상품의 같은 카테고리 상품 5개 랜덤으로 선택
-  let category = [];
-  const randomItem = () => {
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].name == productObject.category) {
-        category = products[i];
-        break;
-      }
-    }
-  };
-
-  randomItem();
+  let category = route.params.category;
   let recommandArray = [];
 
   const selectRandom = () => {
@@ -115,6 +103,7 @@ const ProductScreen = ({ route, navigation }) => {
             onPress={() =>
               navigation.navigate("상품 페이지", {
                 object: item[i],
+                category: category,
               })
             }
             style={{
@@ -143,6 +132,7 @@ const ProductScreen = ({ route, navigation }) => {
               onPress={() =>
                 navigation.navigate("상품 페이지", {
                   object: item[i],
+                  category: category,
                 })
               }
             ></BasicButton>
@@ -372,7 +362,7 @@ const ProductScreen = ({ route, navigation }) => {
                     <BasicButton
                       title="+"
                       onPress={() => setProductNum(productNum + 1)}
-                      style={[styles.modalButton]}
+                      style={styles.modalButton}
                     ></BasicButton>
                     <BasicButton
                       title="-"
@@ -384,65 +374,44 @@ const ProductScreen = ({ route, navigation }) => {
                     style={styles.modalButton}
                     title="장바구니 담기"
                     onPress={async () => {
-                      productObject.quantity = productNum;
-                      let data = productObject;
+                      let data = {
+                        name: productObject.name,
+                        price: productObject.price,
+                        productNum: productNum,
+                      };
 
                       const currentItems = await AsyncStorage.getItem("cart");
-                      let updatedItems = currentItems
+                      const updatedItems = currentItems
                         ? JSON.parse(currentItems)
                         : [];
-
-                      let existsInCart = updatedItems.some(item => {
-                        return item.id == productObject.id;
-                      });
-
-                      if (existsInCart) {
-                        Alert.alert(
-                          "",
-                          "상품이 이미 장바구니에 존재합니다. 장바구니 페이지로 이동 하시겠습니까?",
-                          [
-                            {
-                              text: "OK",
-                              onPress: () => {
-                                navigation.navigate("장바구니");
-                              },
-                            },
-                            {
-                              text: "NO",
-                              onPress: () => {
-                                setCartModalVisible(false);
-                              },
-                            },
-                          ]
-                        );
-                        setCartModalVisible(false);
-                      } else {
-                        let updatedItems = currentItems
-                          ? JSON.parse(currentItems)
-                          : [];
-                        updatedItems = [...updatedItems, data];
+                      if (updatedItems.length == 0) {
+                        updatedItems.push(data);
                         await AsyncStorage.setItem(
                           "cart",
                           JSON.stringify(updatedItems)
                         );
-                        Alert.alert(
-                          "",
-                          "상품이 장바구니에 담겼습니다. 장바구니 페이지로 이동 하시겠습니까?",
-                          [
-                            {
-                              text: "OK",
-                              onPress: () => {
-                                navigation.navigate("장바구니");
-                              },
-                            },
-                            {
-                              text: "NO",
-                              onPress: () => {
-                                setCartModalVisible(false);
-                              },
-                            },
-                          ]
-                        );
+                        Alert.alert("", "상품이 장바구니에 담겼습니다.");
+                      } else {
+                        for (let i = 0; i < updatedItems.length; i++) {
+                          if (updatedItems[i].name == data.name) {
+                            Alert.alert(
+                              "",
+                              "상품이 이미 장바구니에 존재합니다."
+                            );
+                            setCartModalVisible(!modalVisible);
+                            break;
+                          }
+                          if (i + 1 == updatedItems.length) {
+                            updatedItems.push(data);
+                            await AsyncStorage.setItem(
+                              "cart",
+                              JSON.stringify(updatedItems)
+                            );
+
+                            Alert.alert("", "상품이 장바구니에 담겼습니다.");
+                            break;
+                          }
+                        }
                       }
 
                       setCartModalVisible(false);
@@ -460,6 +429,7 @@ const ProductScreen = ({ route, navigation }) => {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -519,8 +489,6 @@ const ProductScreen = ({ route, navigation }) => {
                     style={styles.modalButton}
                     title="구매하기"
                     onPress={() => {
-                      productObject.quantity = productNum;
-                      object.push(productObject);
                       navigation.navigate("purchase", {
                         object: productObject,
                       });

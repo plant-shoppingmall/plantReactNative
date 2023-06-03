@@ -154,10 +154,7 @@ const ListScreen = ({ navigation, route }) => {
             Plant Shop
           </Text>
         </View>
-        <IconButton
-          onPress={() => navigation.navigate("장바구니")}
-        ></IconButton>
-
+        <IconButton>onPress={() => navigation.navigate("cart")}</IconButton>
       </View>
       <CategoryList />
       <FlatList

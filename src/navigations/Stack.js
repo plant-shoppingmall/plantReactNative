@@ -17,6 +17,11 @@ const Stack = createStackNavigator();
 const StaclNavigation = () => {
   return (
     <Stack.Navigator>
+      {/* <Stack.Screen
+        name="list"
+        component={List}
+        options={{ headerShown: false }}
+      ></Stack.Screen> */}
       <Stack.Screen
         name="category"
         component={Category}
