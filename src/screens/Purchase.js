@@ -30,6 +30,7 @@ const Purchase = ({ route, navigation }) => {
   ];
   const totalPrice = "14,000";
   const products = route.params.object;
+  const price = route.params.price;
   const userInfo = {
     id: 1,
     name: "홍길동",
@@ -48,7 +49,6 @@ const Purchase = ({ route, navigation }) => {
   const [modalOutputRequire, setModalOutputRequire] = useState("없음");
   const [deliverRequire, setDeliverRequire] = useState("없음");
   const [pickerValue, setPickerValue] = useState("1");
-  let product = route.params.object;
   return (
     <View style={styles.container}>
       {/* 배송 요청사항 변경 Modal */}
@@ -221,7 +221,9 @@ const Purchase = ({ route, navigation }) => {
                 </ScrollView>
               </View>
               {/* 상품 총 가격 */}
-              <Text style={styles.priceInProduct}>총 {totalPrice}원</Text>
+              <Text style={styles.priceInProduct}>
+                총 {price.toLocaleString()}원
+              </Text>
             </View>
           </View>
         </View>
@@ -230,7 +232,7 @@ const Purchase = ({ route, navigation }) => {
       <View style={styles.puchaseButton}>
         <Button
           buttonType={ButtonTypes.BUY}
-          price={totalPrice + "원"}
+          price={price.toLocaleString() + "원"}
           title="결제하기"
           onPress={() => {
             console.log("buy!");

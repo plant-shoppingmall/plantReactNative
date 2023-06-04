@@ -13,11 +13,11 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FooterButton from "../component/FooterButton";
 import BasicButton from "../component/BasicButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { products } from "../object/Object";
+import { priceToInt, products } from "../object/Object";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -69,9 +69,12 @@ const ProductScreen = ({ route, navigation }) => {
   };
 
   randomItem();
-  let recommandArray = [];
+
+  const [item, setItem] = useState([]);
+  const [itemArray, setItemArray] = useState([]);
 
   const selectRandom = () => {
+    const recommandArray = [];
     while (recommandArray.length < 5) {
       let random = Math.floor(Math.random() * 10);
 
@@ -90,16 +93,22 @@ const ProductScreen = ({ route, navigation }) => {
     }
     return recommandArray;
   };
-  let item = selectRandom(); // 5개 아이템 저장된 배열
-  // 2번 함수 끝
 
-  // 3번 함수 item 배열 렌더링 작업
-
-  let itemArray = [];
+  useEffect(() => {
+    const newItems = selectRandom();
+    setItem(newItems);
+  }, []);
+  let i = 0;
+  const moveToProductScreen = () => {
+    navigation.navigate("상품 페이지", {
+      object: item[i],
+    });
+  };
 
   const renderRecommand = () => {
+    let tempItemArray = [];
     for (let i = 0; i < item.length; i++) {
-      itemArray.push(
+      tempItemArray.push(
         <View
           style={{
             justifyContent: "center",
@@ -150,9 +159,13 @@ const ProductScreen = ({ route, navigation }) => {
         </View>
       );
     }
-    return itemArray;
+    return tempItemArray;
   };
-  let render = renderRecommand();
+
+  useEffect(() => {
+    const renderedItems = renderRecommand();
+    setItemArray(renderedItems);
+  }, [item]);
 
   const [cartModalVisible, setCartModalVisible] = useState(false);
   const [buyModalVisible, setBuyModalVisible] = useState(false);
@@ -303,7 +316,7 @@ const ProductScreen = ({ route, navigation }) => {
               showsHorizontalScrollIndicator={false}
               // indicatorStyle='white' ios에서만 작동
             >
-              {render}
+              {itemArray}
             </ScrollView>
           </View>
         </ScrollView>
@@ -332,7 +345,11 @@ const ProductScreen = ({ route, navigation }) => {
           visible={cartModalVisible}
           style={{}}
         >
-          <TouchableWithoutFeedback onPress={() => setCartModalVisible(false)}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              setCartModalVisible(false);
+            }}
+          >
             <View
               style={{
                 flex: 1,
@@ -350,11 +367,7 @@ const ProductScreen = ({ route, navigation }) => {
                   justifyContent: "center",
                 }}
               >
-                <TouchableOpacity
-                  onPress={() => {
-                    setCartModalVisible(false);
-                  }}
-                >
+                <TouchableOpacity>
                   <View style={{}}>
                     <Text style={[styles.productName, { fontSize: 20 }]}>
                       이름: {productObject.name}
@@ -452,7 +465,10 @@ const ProductScreen = ({ route, navigation }) => {
 
                   <BasicButton
                     title="취소"
-                    onPress={() => setCartModalVisible(false)}
+                    onPress={() => {
+                      setCartModalVisible(false);
+                      setProductNum(1);
+                    }}
                     style={styles.modalButton}
                   ></BasicButton>
                 </TouchableOpacity>
@@ -466,7 +482,11 @@ const ProductScreen = ({ route, navigation }) => {
           visible={buyModalVisible}
           style={{}}
         >
-          <TouchableWithoutFeedback onPress={() => setBuyModalVisible(false)}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              setBuyModalVisible(false);
+            }}
+          >
             <View
               style={{
                 flex: 1,
@@ -484,11 +504,7 @@ const ProductScreen = ({ route, navigation }) => {
                   justifyContent: "center",
                 }}
               >
-                <TouchableOpacity
-                  onPress={() => {
-                    setBuyModalVisible(false);
-                  }}
-                >
+                <TouchableOpacity>
                   <View style={{}}>
                     <Text style={[styles.productName, { fontSize: 20 }]}>
                       이름: {productObject.name}
@@ -520,17 +536,24 @@ const ProductScreen = ({ route, navigation }) => {
                     title="구매하기"
                     onPress={() => {
                       productObject.quantity = productNum;
+                      let totalPrice =
+                        priceToInt(productObject.price) * productNum;
                       object.push(productObject);
                       navigation.navigate("purchase", {
-                        object: productObject,
+                        object: object,
+                        price: totalPrice,
                       });
                       setBuyModalVisible(false);
+                      setProductNum(1);
                     }}
                   ></BasicButton>
 
                   <BasicButton
                     title="취소"
-                    onPress={() => setBuyModalVisible(false)}
+                    onPress={() => {
+                      setBuyModalVisible(false);
+                      setProductNum(1);
+                    }}
                     style={styles.modalButton}
                   ></BasicButton>
                 </TouchableOpacity>
