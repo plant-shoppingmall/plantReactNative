@@ -18,9 +18,9 @@ const StaclNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="category"
-        component={Category}
-        options={{ headerShown: false }}
+        name="cateScreen"
+        component={cateScreen}
+        //options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
         name="상품 페이지"
@@ -37,11 +37,7 @@ const StaclNavigation = () => {
         component={ListScreen}
         //options={{ headerShown: false }}
       ></Stack.Screen>
-      <Stack.Screen
-        name="cateScreen"
-        component={cateScreen}
-        //options={{ headerShown: false }}
-      ></Stack.Screen>
+
       <Stack.Screen
         name="purchase"
         component={purchasePay}

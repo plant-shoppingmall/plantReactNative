@@ -12,10 +12,11 @@ import { priceToInt } from "../object/Object";
 import Button, { ButtonTypes } from "../component/PurchaseButton";
 import BasicButton from "../component/BasicButton";
 
-const Item = ({ item, quantity, price, index, onDelete }, navigation) => {
-  const [num, setNum] = useState(quantity);
+const Item = ({ item, quantity, price, index, onDelete }) => {
   const [renderPrice, setRenderPrice] = useState(priceToInt(price) * num);
+  const [num, setNum] = useState(quantity);
   const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
   useEffect(() => {
     setNum(quantity);
     setRenderPrice(priceToInt(price) * quantity);
@@ -36,7 +37,7 @@ const Item = ({ item, quantity, price, index, onDelete }, navigation) => {
     setNum(prevNum => {
       const newNum = prevNum + 1;
       setRenderPrice(priceToInt(price) * newNum);
-      item.quantity = quantity + 1;
+      item.quantity = newNum;
       return newNum;
     });
   };
@@ -45,7 +46,7 @@ const Item = ({ item, quantity, price, index, onDelete }, navigation) => {
     setNum(prevNum => {
       const newNum = prevNum - 1;
       setRenderPrice(priceToInt(price) * newNum);
-      item.quantity = quantity - 1;
+      item.quantity = newNum;
       return newNum;
     });
   };
@@ -123,6 +124,17 @@ const Cart = ({ navigation }) => {
     }
   };
 
+  let totalPrice = 0;
+  const cartToPurchase = () => {
+    for (let i = 0; i < items.length; i++) {
+      totalPrice = totalPrice + priceToInt(items[i].price) * items[i].quantity;
+    }
+    navigation.navigate("purchase", {
+      object: items,
+      price: totalPrice,
+    });
+    totalPrice = 0;
+  };
   return (
     <View style={{ flex: 10 }}>
       <ScrollView
@@ -147,7 +159,7 @@ const Cart = ({ navigation }) => {
         <Button
           buttonType={ButtonTypes.BUY}
           title="장바구니 상품 결제하기"
-          onPress={() => navigation.navigate("purchase", { object: items })}
+          onPress={() => cartToPurchase()}
           buttonStyle={styles.buyButton}
           textStyle={styles.deviceText}
           priceStyle={styles.priceText}
