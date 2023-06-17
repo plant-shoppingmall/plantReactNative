@@ -19,11 +19,17 @@ const Stack = createStackNavigator();
 const StaclNavigation = () => {
   return (
     <Stack.Navigator>
-        <Stack.Screen
-          name="HomePageScreen"
-          component={HomePageScreen}
-          //options={{ headerShown: false }}
-        ></Stack.Screen>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="HomePageScreen"
+        component={HomePageScreen}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
       <Stack.Screen
         name="cateScreen"
         component={cateScreen}
@@ -50,12 +56,7 @@ const StaclNavigation = () => {
         component={purchasePay}
         //options={{ headerShown: false }}
       ></Stack.Screen>
-      <Stack.Screen
-        name="Login"
-        component={Login}
 
-        //options={{ headerShown: false }}
-      ></Stack.Screen>
       <Stack.Screen
         name="SignUp"
         component={SignUp}
