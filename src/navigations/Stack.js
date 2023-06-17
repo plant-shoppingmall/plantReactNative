@@ -9,6 +9,7 @@ import { getFonts } from "../constants/theme";
 import purchasePay from "../screens/Purchase";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
+import Mypage from "../screens/Mypage";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -52,6 +53,12 @@ const StaclNavigation = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="Mypage"
+        component={Mypage}
 
         //options={{ headerShown: false }}
       ></Stack.Screen>

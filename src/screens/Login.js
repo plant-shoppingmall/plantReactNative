@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  Keyboard,
   Pressable,
 } from "react-native";
 import Button from "../component/SignUpButton";
@@ -21,12 +22,14 @@ class user {
     this.address = address;
   }
 }
+export let loginUserList = [];
 const checkLogin = (email, password) => {
   for (let i = 0; i < registerdUserList.length; i++) {
     if (
       registerdUserList[i].email == email &&
       registerdUserList[i].password == password
     ) {
+      loginUserList.push(registerdUserList[i]);
       return true;
     }
   }
@@ -62,44 +65,68 @@ const Login = ({ route, navigation }) => {
         </View>
       </Modal>
       {/* 메인 화면 */}
-      <View style={styles.context}>
-        {/* <Image source={require("../../assets/main.png")} style={styles.image} /> */}
-
-        <TextInput
-          style={styles.input}
-          onChangeText={text => {
-            setInputEmail(text);
-          }}
-          placeholder="Email"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={text => {
-            setInputPassword(text);
-          }}
-          placeholder="Password"
-        />
-        <Button
-          title="Login"
-          onPress={() => {
-            if (checkLogin(inputEmail, inputPassword) == true) {
-              navigation.navigate("cateScreen", {});
-            } else {
-              setMessage("아이디와 비밀번호를 확인해주세요.");
-              setModalVisible(true);
-            }
-          }}
-          buttonStyle={styles.button}
-          textStyle={styles.buttonText}
-        />
-        <Button
-          title="SignUp"
-          onPress={() => {
-            navigation.navigate("SignUp", {});
-          }}
-          textStyle={styles.signUpText}
-        />
-      </View>
+      <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+        <View style={styles.context}>
+          {/* <Image source={require("../../assets/main.png")} style={styles.image} /> */}
+          <View style={styles.inputContain}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => {
+                setInputEmail(text);
+              }}
+              placeholder="Email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType={"next"}
+              keyboardType="email-address"
+            />
+            <View style={styles.inputIcon}>
+              <Image
+                source={require("../assets/icons/login-icon-id.png")}
+                style={styles.inputImage}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContain}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => {
+                setInputPassword(text);
+              }}
+              placeholder="Password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry
+            />
+            <View style={styles.inputIcon}>
+              <Image
+                source={require("../assets/icons/login-icon-pw.png")}
+                style={styles.inputImage}
+              />
+            </View>
+          </View>
+          <Button
+            title="Login"
+            onPress={() => {
+              if (checkLogin(inputEmail, inputPassword) == true) {
+                navigation.navigate("cateScreen", {});
+              } else {
+                setMessage("아이디와 비밀번호를 확인해주세요.");
+                setModalVisible(true);
+              }
+            }}
+            buttonStyle={styles.button}
+            textStyle={styles.buttonText}
+          />
+          <Button
+            title="SignUp"
+            onPress={() => {
+              navigation.navigate("SignUp", {});
+            }}
+            textStyle={styles.signUpText}
+          />
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -128,6 +155,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 60,
     marginBottom: 20,
+    paddingLeft: 50,
+    fontSize: 15,
   },
   button: {
     marginTop: 30,
@@ -178,6 +207,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     fontSize: 20,
+  },
+  inputIcon: {
+    position: "absolute",
+    top: 0,
+    bottom: 20,
+    right: 300,
+    left: 45,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputImage: {
+    height: 25,
+    resizeMode: "contain",
+  },
+  inputContain: {
+    width: "100%",
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -13,6 +13,8 @@ import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
 // import { Pressable } from "react-native-web";
 
+export let purchaseCount = 0;
+
 const Purchase = ({ route, navigation }) => {
   const pickupLocations = [
     {
@@ -112,6 +114,7 @@ const Purchase = ({ route, navigation }) => {
           <Button
             title="확인"
             onPress={() => {
+              purchaseCount = 1;
               setBuyModalVisible(false);
               // navigation.navigate("메인 페이지", {
               // })
