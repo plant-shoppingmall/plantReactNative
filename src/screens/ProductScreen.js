@@ -67,7 +67,6 @@ const ProductScreen = ({ route, navigation }) => {
       }
     }
   };
-
   randomItem();
 
   const [item, setItem] = useState([]);
@@ -105,6 +104,11 @@ const ProductScreen = ({ route, navigation }) => {
     });
   };
 
+  const onPressRenderItem = () => {
+    alert("11");
+    const newItems = selectRandom();
+    setItem(newItems);
+  };
   const renderRecommand = () => {
     let tempItemArray = [];
     for (let i = 0; i < item.length; i++) {
@@ -166,6 +170,11 @@ const ProductScreen = ({ route, navigation }) => {
     const renderedItems = renderRecommand();
     setItemArray(renderedItems);
   }, [item]);
+
+  useEffect(() => {
+    const renderedItems = renderRecommand();
+    setItemArray(renderedItems);
+  }, [productObject]);
 
   const [cartModalVisible, setCartModalVisible] = useState(false);
   const [buyModalVisible, setBuyModalVisible] = useState(false);
