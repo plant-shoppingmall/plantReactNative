@@ -6,6 +6,7 @@ const bell = require("../assets/icons/bell.png");
 const heart = require("../assets/icons/heart_icon.png");
 const heartGreenOutline = require("../assets/icons/heart_green_outline.png");
 const heartRed = require("../assets/icons/heart_red.png");
+const menu = require("../assets/icons/menu.png");
 
 export default {
     air,
@@ -16,4 +17,5 @@ export default {
     heart,
     heartGreenOutline,
     heartRed,
+    menu,
 }

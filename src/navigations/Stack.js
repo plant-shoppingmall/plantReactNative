@@ -10,6 +10,7 @@ import purchasePay from "../screens/Purchase";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
 import Mypage from "../screens/Mypage";
+import HomePageScreen from "../screens/HomePageScreen";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -18,6 +19,11 @@ const Stack = createStackNavigator();
 const StaclNavigation = () => {
   return (
     <Stack.Navigator>
+        <Stack.Screen
+          name="HomePageScreen"
+          component={HomePageScreen}
+          //options={{ headerShown: false }}
+        ></Stack.Screen>
       <Stack.Screen
         name="cateScreen"
         component={cateScreen}

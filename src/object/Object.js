@@ -9,6 +9,7 @@ class product {
     this.size = size;
     this.like = false;
     this.quantity = quantity;
+    this.favourite = false;
   }
 }
 

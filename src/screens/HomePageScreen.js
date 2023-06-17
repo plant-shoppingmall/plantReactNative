@@ -10,73 +10,12 @@ import {
 } from "react-native";
 
 import { images, icons, COLORS, FONTS, SIZES } from '../constants';
-import { airPurifyPlantes,cactus,flower } from "../object/Object";
+import { airPurifyPlantes, cactus, flower, popular, pot } from "../object/Object";
+import IconButton from "../component/IconButton";
+import IconMenuButton from "../component/IconMenuButton";
 
 
 const Home = ({ navigation }) => {
-
-  // Dummy Data
-  const [newPlants, setNewPlants] = React.useState([
-    {
-      id: 0,
-      name: "Plant 1",
-      img: images.plant1,
-      favourite: false,
-    },
-    {
-      id: 1,
-      name: "Plant 2",
-      img: images.plant2,
-      favourite: true,
-    },
-    {
-      id: 2,
-      name: "Plant 3",
-      img: images.plant3,
-      favourite: false,
-    },
-    {
-      id: 3,
-      name: "Plant 4",
-      img: images.plant4,
-      favourite: false,
-    },
-    {
-      id: 4,
-      name: "Plant 5",
-      img: images.plant5,
-      favourite: false,
-    },
-    {
-      id: 5,
-      name: "Plant 6",
-      img: images.plant6,
-      favourite: false,
-    },
-  ]);
-
-  const [friendList, setFriendList] = React.useState([
-    {
-      id: 0,
-      img: images.plant3,
-    },
-    {
-      id: 1,
-      img: images.plant3,
-    },
-    {
-      id: 2,
-      img: images.plant3,
-    },
-    {
-      id: 3,
-      img: images.plant3,
-    },
-    {
-      id: 4,
-      img: images.plant3,
-    },
-  ]);
 
   React.useEffect(() => {
   }, []);
@@ -87,7 +26,7 @@ const Home = ({ navigation }) => {
     return (
       <View style={{ alignItems: 'center', justifyContent: 'center', marginHorizontal: SIZES.base }}>
         <Image
-          source={item.img}
+          source={item.image[0]}
           resizeMode="cover"
           style={{
             width: SIZES.width * 0.23,
@@ -116,7 +55,7 @@ const Home = ({ navigation }) => {
             top: '15%',
             left: 7,
           }}
-          onPress={() => { console.log("Focus on pressed") }}
+          onPress={() => navigation.navigate("상품 페이지", { object: item })}
         >
           <Image
             source={item.favourite ? icons.heartRed : icons.heartGreenOutline}
@@ -131,63 +70,6 @@ const Home = ({ navigation }) => {
     )
   }
 
-  function renderFriendsComponent() {
-    if (friendList.length == 0) {
-      return (
-        <View></View>
-      )
-    } else if (friendList.length <= 3) {
-      return (
-        friendList.map((item, index) => (
-          <View
-            key={`friend-${index}`}
-            style={index == 0 ? { flexDirection: 'row' } : { flexDirection: 'row', marginLeft: -20 }}
-          >
-            <Image
-              source={item.img}
-              resizeMode="cover"
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                borderWidth: 3,
-                borderColor: COLORS.primary
-              }}
-            />
-          </View>
-        ))
-      )
-    } else {
-      return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {friendList.map((item, index) => {
-            if (index <= 2) {
-              return (
-                <View
-                  key={`friend-${index}`}
-                  style={index == 0 ? {} : { marginLeft: -20 }}
-                >
-                  <Image
-                    source={item.img}
-                    resizeMode="cover"
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 25,
-                      borderWidth: 3,
-                      borderColor: COLORS.primary
-                    }}
-                  />
-                </View>
-              )
-            }
-          })}
-
-          <Text style={{ marginLeft: 5, color: COLORS.secondary, ...FONTS.body3 }}>+{friendList.length - 3} More</Text>
-        </View>
-      )
-    }
-  }
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -195,7 +77,7 @@ const Home = ({ navigation }) => {
         marginVertical: SIZES.base,
         width: SIZES.width / 2.5
       }}
-      onPress={() => console.log(item.title)}
+      onPress={() => navigation.navigate("상품 페이지", { object: item })}
     >
       <View
         style={{
@@ -206,7 +88,7 @@ const Home = ({ navigation }) => {
         }}
       >
         <Image
-          source={item.img}
+          source={item.image}
           resizeMode="cover"
           style={{
             width: "100%",
@@ -234,6 +116,7 @@ const Home = ({ navigation }) => {
   return (
 
     <View style={styles.container}>
+
       {/* New Plants */}
       <View style={{ height: "30%", backgroundColor: COLORS.white }}>
         <View style={{
@@ -242,21 +125,15 @@ const Home = ({ navigation }) => {
           borderBottomRightRadius: 50,
           backgroundColor: COLORS.primary
         }}>
-
           <View style={{ marginTop: SIZES.padding * 2, marginHorizontal: SIZES.padding }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={{ color: COLORS.white, ...FONTS.h2, }}>새로운 식물</Text>
               <TouchableOpacity
                 onPress={() => { console.log("Focus on pressed") }}
               >
-                <Image
-                  source={icons.focus}
-                  resizeMode="contain"
-                  style={{
-                    width: 20,
-                    height: 20
-                  }}
-                />
+                <IconMenuButton
+                  onPress={() => navigation.navigate("cateScreen")}
+                ></IconMenuButton>
               </TouchableOpacity>
             </View>
 
@@ -264,7 +141,7 @@ const Home = ({ navigation }) => {
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={newPlants}
+                data={popular}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item, index }) => renderNewPlants(item, index)}
               />
@@ -287,7 +164,7 @@ const Home = ({ navigation }) => {
                 <Text style={{ color: COLORS.secondary, ...FONTS.h2, }}>오늘의 추천상품</Text>
 
                 <TouchableOpacity
-                  onPress={() => { console.log("See All on pressed") }}
+                  onPress={() => navigation.navigate("listScreen",{itemId : 0})}
                 >
                   <Text style={{ color: COLORS.secondary, ...FONTS.body3 }}>See All</Text>
                 </TouchableOpacity>
@@ -297,9 +174,7 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity
                     style={{ flex: 1 }}
-                    onPress={() => { navigation.navigate("상품 페이지"),{
-                      object: flower[2],
-                    } }}
+                    onPress={() => navigation.navigate("상품 페이지", { object: flower[2] })}
                   >
                     <Image
                       source={flower[2].image[0]}
@@ -316,10 +191,7 @@ const Home = ({ navigation }) => {
 
                   <TouchableOpacity
                     style={{ flex: 1, marginTop: SIZES.font }}
-                    onPress={() => {
-                      navigation.navigate("상품 페이지") ,{
-                        object: cactus[2],
-                      }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: cactus[2] })}
                   >
                     <Image
                       source={cactus[2].image[0]}
@@ -337,9 +209,7 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1.3 }}>
                   <TouchableOpacity
                     style={{ flex: 1, marginLeft: SIZES.font }}
-                    onPress={() => { navigation.navigate("상품 페이지") ,{
-                      object: airPurifyPlantes[2],
-                    }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: airPurifyPlantes[2] })}
                   >
                     <Image
                       source={airPurifyPlantes[2].image[0]}
@@ -371,12 +241,10 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity
                     style={{ flex: 1 }}
-                    onPress={() => { navigation.navigate("상품 페이지"),{
-                      object: flower[2],
-                    } }}
+                    onPress={() => navigation.navigate("상품 페이지", { object: flower[3] })}
                   >
                     <Image
-                      source={flower[2].image[0]}
+                      source={flower[3].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -390,13 +258,10 @@ const Home = ({ navigation }) => {
 
                   <TouchableOpacity
                     style={{ flex: 1, marginTop: SIZES.font }}
-                    onPress={() => {
-                      navigation.navigate("상품 페이지") ,{
-                        object: cactus[2],
-                      }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: flower[4] })}
                   >
                     <Image
-                      source={cactus[2].image[0]}
+                      source={cactus[4].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -411,12 +276,10 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1.3 }}>
                   <TouchableOpacity
                     style={{ flex: 1, marginLeft: SIZES.font }}
-                    onPress={() => { navigation.navigate("상품 페이지") ,{
-                      object: airPurifyPlantes[2],
-                    }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: cactus[3] })}
                   >
                     <Image
-                      source={airPurifyPlantes[2].image[0]}
+                      source={cactus[3].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -445,12 +308,10 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity
                     style={{ flex: 1 }}
-                    onPress={() => { navigation.navigate("상품 페이지"),{
-                      object: flower[2],
-                    } }}
+                    onPress={() => navigation.navigate("상품 페이지", { object: pot[2] })}
                   >
                     <Image
-                      source={flower[2].image[0]}
+                      source={pot[2].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -464,13 +325,10 @@ const Home = ({ navigation }) => {
 
                   <TouchableOpacity
                     style={{ flex: 1, marginTop: SIZES.font }}
-                    onPress={() => {
-                      navigation.navigate("상품 페이지") ,{
-                        object: cactus[2],
-                      }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: pot[3] })}
                   >
                     <Image
-                      source={cactus[2].image[0]}
+                      source={pot[3].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -485,12 +343,10 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1.3 }}>
                   <TouchableOpacity
                     style={{ flex: 1, marginLeft: SIZES.font }}
-                    onPress={() => { navigation.navigate("상품 페이지") ,{
-                      object: airPurifyPlantes[2],
-                    }}}
+                    onPress={() => navigation.navigate("상품 페이지", { object: flower[5] })}
                   >
                     <Image
-                      source={airPurifyPlantes[2].image[0]}
+                      source={flower[5].image[0]}
                       resizeMode="cover"
                       style={{
                         width: '100%',
@@ -507,7 +363,6 @@ const Home = ({ navigation }) => {
           </View>
 
         </View>
-
 
       </ScrollView>
     </View>
