@@ -9,7 +9,7 @@ import {
   FlatList, ScrollView
 } from "react-native";
 
-import { images, icons, COLORS, FONTS, SIZES } from '../constants';
+import { images, icons, COLORS, SIZES } from '../constants';
 import { airPurifyPlantes, cactus, flower, popular, pot } from "../object/Object";
 import IconButton from "../component/IconButton";
 import IconMenuButton from "../component/IconMenuButton";
@@ -46,7 +46,7 @@ const Home = ({ navigation }) => {
             borderBottomLeftRadius: 10,
           }}
         >
-          <Text style={{ color: COLORS.white, ...FONTS.body4 }}>{item.name}</Text>
+          <Text style={{ color: COLORS.white, }}>{item.name}</Text>
         </View>
 
         <TouchableOpacity
@@ -107,8 +107,8 @@ const Home = ({ navigation }) => {
           borderBottomRightRadius: 20
         }}
       >
-        <Text style={{ ...FONTS.h4 }}>{item.title}</Text>
-        <Text style={{ ...FONTS.body4 }}>{item.description}</Text>
+        <Text style={{ }}>{item.title}</Text>
+        <Text style={{ }}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -127,7 +127,7 @@ const Home = ({ navigation }) => {
         }}>
           <View style={{ marginTop: SIZES.padding * 2, marginHorizontal: SIZES.padding }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: COLORS.white, ...FONTS.h2, }}>새로운 식물</Text>
+              <Text style={{ color: COLORS.white, }}>새로운 식물</Text>
               <TouchableOpacity
                 onPress={() => { console.log("Focus on pressed") }}
               >
@@ -161,12 +161,12 @@ const Home = ({ navigation }) => {
           }}>
             <View style={{ marginTop: SIZES.font, marginHorizontal: SIZES.padding }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={{ color: COLORS.secondary, ...FONTS.h2, }}>오늘의 추천상품</Text>
+                <Text style={{ color: COLORS.secondary,  }}>오늘의 추천상품</Text>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate("listScreen",{itemId : 0})}
                 >
-                  <Text style={{ color: COLORS.secondary, ...FONTS.body3 }}>See All</Text>
+                  <Text style={{ color: COLORS.secondary,  }}>See All</Text>
                 </TouchableOpacity>
               </View>
 
