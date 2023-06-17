@@ -38,7 +38,15 @@ const checkDuplicateEmail = email => {
   return true;
 };
 // 회원 리스트
-export let registerdUserList = [];
+export let registerdUserList = [
+  new user(
+    "email@naver.com",
+    "asd123",
+    "김테스",
+    "01011112222",
+    "서울시 성북구"
+  ),
+];
 // Sing Up Main
 const SignUp = ({ route, navigation }) => {
   const [email, setEmail] = useState("");

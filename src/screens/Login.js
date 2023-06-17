@@ -22,12 +22,14 @@ class user {
     this.address = address;
   }
 }
+export let loginUserList = [];
 const checkLogin = (email, password) => {
   for (let i = 0; i < registerdUserList.length; i++) {
     if (
       registerdUserList[i].email == email &&
       registerdUserList[i].password == password
     ) {
+      loginUserList.push(registerdUserList[i]);
       return true;
     }
   }
