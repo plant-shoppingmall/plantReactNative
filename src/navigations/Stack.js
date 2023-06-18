@@ -9,7 +9,6 @@ import { getFonts } from "../constants/theme";
 import purchasePay from "../screens/Purchase";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
-import Mainpage from "../screens/Mainpage";
 import Mypage from "../screens/Mypage";
 import { Image, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -23,16 +22,17 @@ const StaclNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="HomePageScreen"
+        component={HomePageScreen}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
         name="Login"
         component={Login}
 
         //options={{ headerShown: false }}
       ></Stack.Screen>
-      <Stack.Screen
-        name="HomePageScreen"
-        component={HomePageScreen}
-        //options={{ headerShown: false }}
-      ></Stack.Screen>
+
       <Stack.Screen
         name="cateScreen"
         component={cateScreen}
@@ -57,6 +57,12 @@ const StaclNavigation = () => {
       <Stack.Screen
         name="purchase"
         component={purchasePay}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+
         //options={{ headerShown: false }}
       ></Stack.Screen>
 
