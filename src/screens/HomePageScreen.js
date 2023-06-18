@@ -13,6 +13,7 @@ import { images, icons, COLORS, SIZES } from '../constants';
 import { airPurifyPlantes, cactus, flower, popular, pot } from "../object/Object";
 import IconButton from "../component/IconButton";
 import IconMenuButton from "../component/IconMenuButton";
+import IconMyPageButton from "../component/IconMypageButton";
 
 
 const Home = ({ navigation }) => {
@@ -126,15 +127,15 @@ const Home = ({ navigation }) => {
           backgroundColor: COLORS.primary
         }}>
           <View style={{ marginTop: SIZES.padding * 2, marginHorizontal: SIZES.padding }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: COLORS.white, }}>새로운 식물</Text>
-              <TouchableOpacity
-                onPress={() => { console.log("Focus on pressed") }}
-              >
+            <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent: 'flex-end' }}>
+              <Text style={{ color: COLORS.white ,justifyContent: 'flex-start',marginRight: 230}}>새로운 식물</Text>
+                <IconMyPageButton
+                  style={{ justifyContent: 'flex-end' }}
+                  onPress={() => navigation.navigate("Mypage")}
+                ></IconMyPageButton>
                 <IconMenuButton
                   onPress={() => navigation.navigate("cateScreen")}
                 ></IconMenuButton>
-              </TouchableOpacity>
             </View>
 
             <View style={{ marginTop: SIZES.base }}>
