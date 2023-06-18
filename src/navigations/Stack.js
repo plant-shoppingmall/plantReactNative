@@ -9,6 +9,10 @@ import { getFonts } from "../constants/theme";
 import purchasePay from "../screens/Purchase";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
+import Mainpage from "../screens/Mainpage";
+import Mypage from "../screens/Mypage";
+import { Image, View, Pressable, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -17,6 +21,24 @@ const Stack = createStackNavigator();
 const StaclNavigation = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Mainpage"
+        component={Mainpage}
+        options={{
+          headerRight: props => <LogoTitle {...props} />,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="Mypage"
+        component={Mypage}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
+
       <Stack.Screen
         name="cateScreen"
         component={cateScreen}
@@ -43,19 +65,34 @@ const StaclNavigation = () => {
         component={purchasePay}
         //options={{ headerShown: false }}
       ></Stack.Screen>
-      <Stack.Screen
-        name="Login"
-        component={Login}
 
-        //options={{ headerShown: false }}
-      ></Stack.Screen>
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-
         //options={{ headerShown: false }}
       ></Stack.Screen>
     </Stack.Navigator>
   );
 };
+function LogoTitle() {
+  const navigation = useNavigation();
+
+  return (
+    <Pressable onPress={() => navigation.navigate("Mypage")}>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: 10,
+        }}
+      >
+        <Image
+          style={{ width: 25, height: 25 }}
+          source={require("../assets/icons/user.png")}
+        />
+        <Text style={{ fontSize: 10 }}>MyPage</Text>
+      </View>
+    </Pressable>
+  );
+}
 export default StaclNavigation;
