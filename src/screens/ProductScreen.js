@@ -97,18 +97,7 @@ const ProductScreen = ({ route, navigation }) => {
     const newItems = selectRandom();
     setItem(newItems);
   }, []);
-  let i = 0;
-  const moveToProductScreen = () => {
-    navigation.navigate("상품 페이지", {
-      object: item[i],
-    });
-  };
 
-  const onPressRenderItem = () => {
-    alert("11");
-    const newItems = selectRandom();
-    setItem(newItems);
-  };
   const renderRecommand = () => {
     let tempItemArray = [];
     for (let i = 0; i < item.length; i++) {
@@ -170,11 +159,6 @@ const ProductScreen = ({ route, navigation }) => {
     const renderedItems = renderRecommand();
     setItemArray(renderedItems);
   }, [item]);
-
-  useEffect(() => {
-    const renderedItems = renderRecommand();
-    setItemArray(renderedItems);
-  }, [productObject]);
 
   const [cartModalVisible, setCartModalVisible] = useState(false);
   const [buyModalVisible, setBuyModalVisible] = useState(false);

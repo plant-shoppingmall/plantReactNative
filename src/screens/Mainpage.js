@@ -12,8 +12,7 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import React from "react";
-import MyButton from "../component/MyButton";
-import MyPageButton from "../component/MyPageButton";
+import ProductScreen from "./ProductScreen";
 
 const images = [
   require("../object/Mainpage/banner1.png"),
