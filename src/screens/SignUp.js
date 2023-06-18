@@ -43,7 +43,7 @@ export let registerdUserList = [
     "email@naver.com",
     "asd123",
     "김테스",
-    "01011112222",
+    "010-1111-2222",
     "서울시 성북구"
   ),
 ];

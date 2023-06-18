@@ -109,10 +109,9 @@ const Purchase = ({ route, navigation }) => {
           <Button
             title="확인"
             onPress={() => {
-              purchaseCount = 1;
+              purchaseCount++;
               setBuyModalVisible(false);
-              // navigation.navigate("메인 페이지", {
-              // })
+              navigation.navigate("HomePageScreen", {});
             }}
             buttonStyle={styles.buymodalButtonFrame}
             textStyle={styles.deviceText}
