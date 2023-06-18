@@ -13,6 +13,7 @@ import Mainpage from "../screens/Mainpage";
 import Mypage from "../screens/Mypage";
 import { Image, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import HomePageScreen from "../screens/HomePageScreen";
 
 //MobileProject\src\screens\ProductScreen.js
 
@@ -22,23 +23,16 @@ const StaclNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Mainpage"
-        component={Mainpage}
-        options={{
-          headerRight: props => <LogoTitle {...props} />,
-        }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="Mypage"
-        component={Mypage}
-        //options={{ headerShown: false }}
-      ></Stack.Screen>
-      <Stack.Screen
         name="Login"
         component={Login}
+
         //options={{ headerShown: false }}
       ></Stack.Screen>
-
+      <Stack.Screen
+        name="HomePageScreen"
+        component={HomePageScreen}
+        //options={{ headerShown: false }}
+      ></Stack.Screen>
       <Stack.Screen
         name="cateScreen"
         component={cateScreen}
@@ -67,8 +61,9 @@ const StaclNavigation = () => {
       ></Stack.Screen>
 
       <Stack.Screen
-        name="SignUp"
-        component={SignUp}
+        name="Mypage"
+        component={Mypage}
+
         //options={{ headerShown: false }}
       ></Stack.Screen>
     </Stack.Navigator>

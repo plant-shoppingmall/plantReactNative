@@ -44,6 +44,10 @@ const Category = ({ navigation, route }) => {
         title="장바구니"
         onPress={() => navigation.navigate("장바구니")}
       ></Button>
+      <Button
+        title="Mypage"
+        onPress={() => navigation.navigate("Mypage")}
+      ></Button>
     </View>
   );
 };

@@ -9,8 +9,10 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  Platform,
 } from "react-native";
 import Button from "../component/SignUpButton";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 class user {
   constructor(email, password, name, phoneNumber, address) {
     this.email = email;
@@ -36,7 +38,15 @@ const checkDuplicateEmail = email => {
   return true;
 };
 // 회원 리스트
-export let registerdUserList = [];
+export let registerdUserList = [
+  new user(
+    "email@naver.com",
+    "asd123",
+    "김테스",
+    "01011112222",
+    "서울시 성북구"
+  ),
+];
 // Sing Up Main
 const SignUp = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
@@ -51,6 +61,11 @@ const SignUp = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [checkModalVisible, setCheckModalVisible] = useState(false);
 
+  const [isEmailFocus, setIsEmailFocus] = useState(false);
+  const [isPwFocus, setIsPWFocus] = useState(false);
+  const [isNameFocus, setIsNameFocus] = useState(false);
+  const [isPNFocus, setIsPNFocus] = useState(false);
+  const [isAdFocus, setIsAdFocus] = useState(false);
   return (
     <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -100,21 +115,36 @@ const SignUp = ({ route, navigation }) => {
           </View>
         </Modal>
         {/* 메인 화면 */}
-        <View style={styles.context}>
-          <Text style={styles.title}>signup</Text>
-          <View style={styles.userInputFrame}>
-            <View style={styles.inputContext}>
-              <View style={styles.inputInnerContext}>
-                <Text style={[styles.inputTitle, { marginRight: 32 }]}>
-                  이메일
-                </Text>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <View style={styles.context}>
+            <View style={styles.userInputFrame}>
+              <View style={styles.inputContext}>
+                <View style={styles.inputInnerContext}>
+                  <Text style={[styles.inputTitle, { marginRight: 32 }]}>
+                    이메일
+                  </Text>
+                </View>
                 <View style={styles.emailInputFrame}>
                   <TextInput
-                    style={[styles.input, { width: "60%" }]}
+                    style={[
+                      styles.input,
+                      { width: "60%" },
+                      isEmailFocus && { backgroundColor: "#F5FBEF" },
+                    ]}
                     onChangeText={text => {
                       setEmail(text.trim());
                     }}
                     placeholder="Email"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    returnKeyType={"next"}
+                    keyboardType="email-address"
+                    onFocus={() => {
+                      setIsEmailFocus(true);
+                    }}
+                    onBlur={() => {
+                      setIsEmailFocus(false);
+                    }}
                   />
                   <Button
                     title="중복확인"
@@ -139,88 +169,149 @@ const SignUp = ({ route, navigation }) => {
                   />
                 </View>
               </View>
+              <View style={styles.inputContext}>
+                <View style={styles.inputInnerContext}>
+                  <Text style={[styles.inputTitle, { marginRight: 53 }]}>
+                    비밀번호
+                  </Text>
+                </View>
+                <TextInput
+                  style={[
+                    styles.input,
+
+                    isPwFocus && { backgroundColor: "#F5FBEF" },
+                  ]}
+                  onChangeText={text => {
+                    setPassword(text);
+                  }}
+                  placeholder="PassWord"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType={"next"}
+                  onFocus={() => {
+                    setIsPWFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsPWFocus(false);
+                  }}
+                />
+              </View>
+              <View style={styles.inputContext}>
+                <View style={styles.inputInnerContext}>
+                  <Text style={[styles.inputTitle, { marginRight: 30 }]}>
+                    이름
+                  </Text>
+                </View>
+                <TextInput
+                  style={[
+                    styles.input,
+                    isNameFocus && { backgroundColor: "#F5FBEF" },
+                  ]}
+                  onChangeText={text => {
+                    setName(text);
+                  }}
+                  placeholder="Name"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType={"next"}
+                  onFocus={() => {
+                    setIsNameFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsNameFocus(false);
+                  }}
+                />
+              </View>
+              <View style={styles.inputContext}>
+                <View style={styles.inputInnerContext}>
+                  <Text style={[styles.inputTitle, { marginRight: 57 }]}>
+                    전화번호
+                  </Text>
+                </View>
+                <TextInput
+                  style={[
+                    styles.input,
+                    isPNFocus && { backgroundColor: "#F5FBEF" },
+                  ]}
+                  onChangeText={text => {
+                    setPhoneNumber(text);
+                  }}
+                  placeholder="PhoneNumber"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType={"next"}
+                  onFocus={() => {
+                    setIsPNFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsPNFocus(false);
+                  }}
+                />
+              </View>
+              <View style={styles.inputContext}>
+                <View style={styles.inputInnerContext}>
+                  <Text style={[styles.inputTitle, { marginRight: 10 }]}>
+                    주소
+                  </Text>
+                </View>
+                <TextInput
+                  style={[
+                    styles.input,
+                    isAdFocus && { backgroundColor: "#F5FBEF" },
+                  ]}
+                  onChangeText={text => {
+                    setAddress(text);
+                  }}
+                  placeholder="Address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType={"done"}
+                  onFocus={() => {
+                    setIsAdFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsAdFocus(false);
+                  }}
+                />
+              </View>
             </View>
-            <View style={styles.inputContext}>
-              <Text style={[styles.inputTitle, { marginRight: 53 }]}>
-                비밀번호
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => {
-                  setPassword(text);
+            <View style={styles.buttonContext}>
+              <Button
+                title="로그인하기"
+                onPress={() => {
+                  navigation.navigate("Login", {});
                 }}
-                placeholder="PassWord"
+                buttonStyle={[
+                  styles.button,
+                  {
+                    backgroundColor: "#FFFFFF",
+                    borderWidth: 1,
+                    borderColor: "#298A08",
+                    marginRight: 20,
+                  },
+                ]}
+                textStyle={[styles.buttonText, { color: "#298A08" }]}
               />
-            </View>
-            <View style={styles.inputContext}>
-              <Text style={[styles.inputTitle, { marginRight: 30 }]}>이름</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => {
-                  setName(text);
+              <Button
+                title="회원가입하기"
+                onPress={() => {
+                  if (duplicateCheck == true) {
+                    registerdUserList.push(
+                      new user(email, password, name, phoneNumber, address)
+                    );
+                    setErrorMessage("회원가입이 완료되었습니다.");
+                    setModalVisible(true);
+                  } else {
+                    setErrorMessage("이메일 중복확인을 먼저 해주세요.");
+                    setModalVisible(true);
+                  }
                 }}
-                placeholder="Name"
-              />
-            </View>
-            <View style={styles.inputContext}>
-              <Text style={[styles.inputTitle, { marginRight: 57 }]}>
-                전화번호
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => {
-                  setPhoneNumber(text);
-                }}
-                placeholder="PhoneNumber"
-              />
-            </View>
-            <View style={styles.inputContext}>
-              <Text style={[styles.inputTitle, { marginRight: 10 }]}>주소</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => {
-                  setAddress(text);
-                }}
-                placeholder="Address"
+                buttonStyle={styles.button}
+                textStyle={styles.buttonText}
               />
             </View>
           </View>
-          <View style={styles.buttonContext}>
-            <Button
-              title="로그인하기"
-              onPress={() => {
-                navigation.navigate("Login", {});
-              }}
-              buttonStyle={[
-                styles.button,
-                {
-                  backgroundColor: "#FFFFFF",
-                  borderWidth: 1,
-                  borderColor: "#298A08",
-                  marginRight: 20,
-                },
-              ]}
-              textStyle={[styles.buttonText, { color: "#298A08" }]}
-            />
-            <Button
-              title="회원가입하기"
-              onPress={() => {
-                if (duplicateCheck == true) {
-                  registerdUserList.push(
-                    new user(email, password, name, phoneNumber, address)
-                  );
-                  setErrorMessage("회원가입이 완료되었습니다.");
-                  setModalVisible(true);
-                } else {
-                  setErrorMessage("이메일 중복확인을 먼저 해주세요.");
-                  setModalVisible(true);
-                }
-              }}
-              buttonStyle={styles.button}
-              textStyle={styles.buttonText}
-            />
-          </View>
-        </View>
+        </KeyboardAwareScrollView>
       </View>
     </Pressable>
   );
@@ -229,9 +320,10 @@ const SignUp = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
   },
   context: {
-    flex: 1,
+    height: "100%",
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -239,52 +331,42 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
-  },
-  title: {
-    alignItems: "center",
-    backgroundColor: "gray",
-    width: "50%",
-    height: 300,
-    marginTop: 20,
+    marginTop: 50,
   },
   userInputFrame: {
     width: "100%",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "red",
   },
   inputContext: {
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
-    height: 60,
+    height: 100,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 10,
     paddingBottom: 10,
     marginBottom: 8,
-    backgroundColor: "black",
   },
   inputInnerContext: {
     flexDirection: "column",
     justifyContent: "center",
-    width: "100%",
-    backgroundColor: "blue",
+    width: "80%",
   },
   inputTitle: {
-    fontSize: 15,
-    color: "#848484",
+    fontSize: 20,
+    color: "#000000",
     marginLeft: 10,
+    marginBottom: 10,
   },
   input: {
-    borderWidth: 1,
-    borderRadius: 50,
+    borderBottomWidth: 1,
     paddingHorizontal: 10,
-    backgroundColor: "#F5FBEF",
     borderColor: "#74DF00",
     width: "80%",
     height: 42,
+    paddingLeft: 15,
   },
   emailInputFrame: {
     flexDirection: "row",

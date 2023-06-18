@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity
 } from "react-native"
-import { COLORS, SIZES, FONTS, icons, images } from "../constants"
+import { COLORS, SIZES, icons, images } from "../constants"
 import { getFonts } from "../constants/theme";
 
 const CateScreen = ({ navigation }) => {
@@ -140,7 +140,7 @@ const CateScreen = ({ navigation }) => {
 
     const Header = () => (
       <View style={{ marginBottom: SIZES.padding * 2 }}>
-        <Text style={{ ...FONTS.h3 }}>카테고리</Text>
+        <Text style={{ }}>카테고리</Text>
       </View>
     )
 
@@ -170,7 +170,7 @@ const CateScreen = ({ navigation }) => {
             }}
           />
         </View>
-        <Text style={{ textAlign: 'center', flexWrap: 'wrap', ...FONTS.body4 }}>{item.description}</Text>
+        <Text style={{ textAlign: 'center', flexWrap: 'wrap'}}>{item.description}</Text>
       </TouchableOpacity>
     )
 
@@ -206,12 +206,12 @@ const CateScreen = ({ navigation }) => {
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text style={{ ...FONTS.h3 }}>매거진</Text>
+          <Text style={{}}>매거진</Text>
         </View>
         <TouchableOpacity
           onPress={() => console.log("View All")}
         >
-          <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>View All</Text>
+          <Text style={{ color: COLORS.gray}}>View All</Text>
         </TouchableOpacity>
       </View>
 
@@ -253,8 +253,8 @@ const CateScreen = ({ navigation }) => {
             borderBottomRightRadius: 20
           }}
         >
-          <Text style={{ ...FONTS.h4 }}>{item.title}</Text>
-          <Text style={{ ...FONTS.body4 }}>{item.description}</Text>
+          <Text style={{  }}>{item.title}</Text>
+          <Text style={{ }}>{item.description}</Text>
         </View>
       </TouchableOpacity>
     )
