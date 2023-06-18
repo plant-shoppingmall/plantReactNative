@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Button, { ButtonTypes } from "../component/PurchaseButton";
 import { Picker } from "@react-native-picker/picker";
+import { loginUserList } from "./Login";
 // import { Pressable } from "react-native-web";
 
 export let purchaseCount = 0;
@@ -33,13 +34,7 @@ const Purchase = ({ route, navigation }) => {
   const totalPrice = "14,000";
   const products = route.params.object;
   const price = route.params.price;
-  const userInfo = {
-    id: 1,
-    name: "홍길동",
-    email: "test@naver.com",
-    phoneNumber: "010-1234-5678",
-    address: "서울시 성북구 화랑로 48길 16",
-  };
+  const userInfo = loginUserList[0];
   const [requireModalVisible, setRequireModalVisible] = useState(false);
   const [buyModalVisible, setBuyModalVisible] = useState(false);
   const [modalOutputAddress, setModalOutputAddress] = useState(
